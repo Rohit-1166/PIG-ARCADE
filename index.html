@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css?v=2.0" />
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+    <title>Pig Game | Cyber Arcade Deluxe</title>
+  </head>
+  <body data-theme="pvp">
+    <!-- Floating Cyberpunk Light Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Canvas for Confetti and Flying Particles -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- PERK DETAILS GLASS MODAL popup -->
+    <div class="modal-overlay" id="perk-modal" onclick="closePerkModal()">
+      <div class="modal-content glass-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePerkModal()">&times;</button>
+        <div class="modal-body" id="modal-body">
+          <!-- Injected dynamically in JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="game-wrapper">
+      <header class="game-header">
+        <h1 class="game-logo">PIG <span>ARCADE</span></h1>
+        
+        <!-- PREMIUM EMOJI-FREE NAV BAR -->
+        <nav class="glass-nav">
+          <button class="nav-tab active" data-target="pvp-mode">Player VS Player</button>
+          <button class="nav-tab" data-target="ai-mode">AI Battle Arena</button>
+          <button class="nav-tab" data-target="stats-mode">Stats & Rankings</button>
+          <button class="nav-tab" data-target="codex-mode">Codex & Perks</button>
+        </nav>
+      </header>
+
+      <!-- PAGE 1: PVP MODE CONTENT -->
+      <div id="pvp-mode" class="tab-content active">
+        <main class="game-container">
+          <!-- PLAYER 1 -->
+          <section class="player player--0 player--active">
+            <div class="avatar-container">
+              <svg class="avatar-svg" viewBox="0 0 120 120" width="100%" height="100%">
+                <defs>
+                  <filter id="glow-boy" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                  <linearGradient id="hair-grad-boy" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#c084fc" />
+                    <stop offset="100%" stop-color="#7c3aed" />
+                  </linearGradient>
+                  <linearGradient id="eye-grad-boy" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#c084fc" />
+                    <stop offset="100%" stop-color="#4c1d95" />
+                  </linearGradient>
+                  <linearGradient id="tear-grad-boy" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#0284c7" stop-opacity="0.3" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="48" fill="rgba(124, 58, 237, 0.1)" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                <circle cx="60" cy="60" r="48" fill="none" stroke="#c084fc" stroke-width="2.5" class="avatar-glow" filter="url(#glow-boy)" />
+                <g class="avatar-body">
+                  <path d="M25,110 C25,95 40,84 60,84 C80,84 95,95 95,110 Z" fill="#180e29" stroke="#c084fc" stroke-width="1.5" />
+                  <path d="M45,84 L41,75 L60,79 L79,75 L75,84 Z" fill="#2e1065" stroke="#a78bfa" stroke-width="1" />
+                  <path d="M52,80 L60,92 L68,80 Z" fill="#ffffff" />
+                  <path d="M60,80 L60,92" stroke="#7c3aed" stroke-width="1" />
+                  <path d="M52,70 L52,80 L68,80 L68,70 Z" fill="#ffd4bd" />
+                  <path d="M38,45 C38,34 45,29 60,29 C75,29 82,34 82,45 C82,60 76,73 60,73 C44,73 38,60 38,45 Z" fill="#ffd4bd" />
+                  <path d="M38,45 C38,45 35,46 35,49 C35,52 38,53 38,53 Z" fill="#ffd4bd" />
+                  <path d="M82,45 C82,45 85,46 85,49 C85,52 82,53 82,53 Z" fill="#ffd4bd" />
+                  <g class="blush"><ellipse cx="46" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /><ellipse cx="74" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /></g>
+                  <g class="eye-normal">
+                    <ellipse cx="48" cy="48" rx="5.5" ry="7" fill="url(#eye-grad-boy)" /><circle cx="46.5" cy="45" r="1.8" fill="#ffffff" /><circle cx="49.5" cy="51" r="1" fill="#ffffff" opacity="0.7" /><path d="M41,40 Q48,37 55,40" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <ellipse cx="72" cy="48" rx="5.5" ry="7" fill="url(#eye-grad-boy)" /><circle cx="70.5" cy="45" r="1.8" fill="#ffffff" /><circle cx="73.5" cy="51" r="1" fill="#ffffff" opacity="0.7" /><path d="M65,40 Q72,37 79,40" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" />
+                  </g>
+                  <g class="eye-happy"><path d="M42,50 Q48,43 54,50" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M41,42 Q48,39 55,42" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none" /><path d="M66,50 Q72,43 78,50" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M66,42 Q72,39 78,42" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-sad"><path d="M42,48 Q48,54 54,48" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M41,43 Q48,46 55,43" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" /><path d="M66,48 Q72,54 78,48" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M65,43 Q72,46 79,43" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-shocked"><circle cx="48" cy="48" r="6.5" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="48" cy="48" r="2" fill="#1e1b4b" /><path d="M41,39 Q48,42 55,39" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" /><circle cx="72" cy="48" r="6.5" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="72" cy="48" r="2" fill="#1e1b4b" /><path d="M65,39 Q72,42 79,39" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" /></g>
+                  <path class="mouth-normal" d="M55,61 Q60,64 65,61" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                  <path class="mouth-happy" d="M54,59 Q60,68 66,59 Z" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" stroke-linejoin="round" />
+                  <path class="mouth-sad" d="M55,64 Q60,59 65,64" stroke="#1e1b4b" stroke-width="1.8" stroke-linecap="round" fill="none" />
+                  <ellipse class="mouth-shocked" cx="60" cy="62" rx="3.5" ry="5.5" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" />
+                  <g class="tears"><path d="M46,50 C44,58 41,75 42,78 C43,81 47,81 48,78 C48,75 48,58 46,50 Z" fill="url(#tear-grad-boy)" /><path d="M74,50 C72,58 69,75 70,78 C71,81 75,81 76,78 C76,75 76,58 74,50 Z" fill="url(#tear-grad-boy)" /></g>
+                  <path class="sweat" d="M79,35 C77.5,39 76,43 76,45 C76,47 77.5,48 78.5,48 C79.5,48 80.5,46 80,43 Z" fill="#38bdf8" opacity="0.8" />
+                  <path d="M30,50 L25,35 L35,28 L50,18 L70,18 L85,28 L95,35 L90,50 Z" fill="url(#hair-grad-boy)" />
+                  <path d="M26,38 L32,45 L34,35 L42,48 L44,38 L54,52 L57,36 L64,52 L67,36 L76,48 L78,35 L86,45 L94,38 L92,30 L82,22 L60,16 L38,22 Z" fill="url(#hair-grad-boy)" stroke="#5b21b6" stroke-width="0.8" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="player-name-wrapper">
+              <h2 class="name pvp-name-0" id="name--0">Player 1</h2>
+              <span class="btn-edit-name" onclick="editPlayerName(0)">✏️</span>
+            </div>
+
+            <!-- ACTIVE POWER-UPS INVENTORY -->
+            <div class="powerups-inventory" id="powerups--0">
+              <button class="powerup-card" data-powerup="shield" title="Aura Shield: Protects from next 1">
+                <span class="powerup-icon">🛡️</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="double" title="Double Down: 2x next 3 rolls">
+                <span class="powerup-icon">🔥</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="siphon" title="Siphon: Steal 10 points">
+                <span class="powerup-icon">⚡</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="lucky" title="Lucky 7: +7 points instantly">
+                <span class="powerup-icon">🍀</span>
+                <span class="powerup-count">1</span>
+              </button>
+            </div>
+
+            <p class="score score-text-0" id="score--0">0</p>
+
+            <div class="current">
+              <p class="current-label">Current</p>
+              <p class="current-score current-score-text-0" id="current--0">0</p>
+            </div>
+          </section>
+
+          <!-- CONTROLS PANEL (CENTER) -->
+          <section class="game-controls">
+            <!-- Game Settings Row -->
+            <div class="settings-panel">
+              <button class="btn-control btn--new" title="New Game">Reset</button>
+              
+              <div class="settings-item">
+                <label for="target-score">Target:</label>
+                <select id="target-score" class="glass-select target-selector-el">
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100" selected>100</option>
+                  <option value="150">150</option>
+                  <option value="200">200</option>
+                </select>
+              </div>
+
+              <button class="btn-control btn--sound" title="Toggle Sound">Audio</button>
+            </div>
+
+            <!-- Dice Rendering Area -->
+            <div class="dice-panel">
+              <div class="dice-box">
+                <img src="dice-5.png" alt="Playing dice 1" class="dice dice--0 hidden" />
+                <img src="dice-5.png" alt="Playing dice 2" class="dice dice--1 hidden" />
+              </div>
+            </div>
+
+            <!-- Game Action Buttons -->
+            <div class="actions-panel">
+              <button class="btn btn--roll">Roll Dice</button>
+              <button class="btn btn--hold">Hold Points</button>
+            </div>
+
+            <!-- Double Dice Switch -->
+            <div class="mode-panel">
+              <span class="mode-label">Double Dice Mode</span>
+              <label class="toggle-switch">
+                <input type="checkbox" class="mode-checkbox-el" id="mode-checkbox" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </section>
+
+          <!-- PLAYER 2 -->
+          <section class="player player--1">
+            <div class="avatar-container">
+              <svg class="avatar-svg" viewBox="0 0 120 120" width="100%" height="100%">
+                <defs>
+                  <filter id="glow-girl" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                  <linearGradient id="hair-grad-girl" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f472b6" />
+                    <stop offset="100%" stop-color="#db2777" />
+                  </linearGradient>
+                  <linearGradient id="eye-grad-girl" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f472b6" />
+                    <stop offset="100%" stop-color="#9d174d" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="48" fill="rgba(219, 39, 119, 0.1)" stroke="rgba(244, 114, 182, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                <circle cx="60" cy="60" r="48" fill="none" stroke="#f472b6" stroke-width="2.5" class="avatar-glow" filter="url(#glow-girl)" />
+                <g class="twin-tails">
+                  <path d="M22,38 C12,32 5,45 8,62 C10,75 20,80 23,65 Z" fill="url(#hair-grad-girl)" class="left-tail" />
+                  <circle cx="21" cy="40" r="3" fill="#f43f5e" />
+                  <path d="M98,38 C108,32 115,45 112,62 C110,75 100,80 97,65 Z" fill="url(#hair-grad-girl)" class="right-tail" />
+                  <circle cx="99" cy="40" r="3" fill="#f43f5e" />
+                </g>
+                <g class="avatar-body">
+                  <path d="M25,110 C25,95 40,84 60,84 C80,84 95,95 95,110 Z" fill="#ffffff" stroke="#f472b6" stroke-width="1.5" />
+                  <path d="M45,84 L41,75 L60,79 L79,75 L75,84 Z" fill="#9d174d" stroke="#f472b6" stroke-width="0.8" />
+                  <path d="M52,80 L60,92 L68,80 Z" fill="#1f2937" />
+                  <path d="M52,70 L52,80 L68,80 L68,70 Z" fill="#ffebd6" />
+                  <path d="M38,45 C38,34 45,29 60,29 C75,29 82,34 82,45 C82,60 76,73 60,73 C44,73 38,60 38,45 Z" fill="#ffebd6" />
+                  <g class="blush"><ellipse cx="46" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /><ellipse cx="74" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /></g>
+                  <g class="eye-normal">
+                    <ellipse cx="48" cy="48" rx="6" ry="7.5" fill="url(#eye-grad-girl)" /><circle cx="46.2" cy="44.2" r="2" fill="#ffffff" /><circle cx="49.8" cy="51.2" r="0.8" fill="#ffffff" opacity="0.8" /><path d="M40,41 Q47,38 54,41" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M38,44 L43,42" stroke="#1e1b4b" stroke-width="1.2" stroke-linecap="round" />
+                    <ellipse cx="72" cy="48" rx="6" ry="7.5" fill="url(#eye-grad-girl)" /><circle cx="70.2" cy="44.2" r="2" fill="#ffffff" /><circle cx="73.8" cy="51.2" r="0.8" fill="#ffffff" opacity="0.8" /><path d="M66,41 Q73,38 80,41" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M82,44 L77,42" stroke="#1e1b4b" stroke-width="1.2" stroke-linecap="round" />
+                  </g>
+                  <g class="eye-happy"><path d="M42,50 Q48,42 54,50" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round" fill="none" /><path d="M41,41 Q48,37 55,41" stroke="#db2777" stroke-width="2" stroke-linecap="round" fill="none" /><path d="M66,50 Q72,42 78,50" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round" fill="none" /><path d="M65,41 Q72,37 79,41" stroke="#db2777" stroke-width="2" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-sad"><path d="M42,47 Q48,53 54,47" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M41,42 Q48,45 55,42" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" /><path d="M66,47 Q72,53 78,47" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M65,42 Q72,45 79,42" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-shocked"><circle cx="48" cy="48" r="6.2" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="48" cy="48" r="1.8" fill="#1e1b4b" /><path d="M41,39 Q48,41 55,39" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" /><circle cx="72" cy="48" r="6.2" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="72" cy="48" r="1.8" fill="#1e1b4b" /><path d="M65,39 Q72,41 79,39" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" /></g>
+                  <path class="mouth-normal" d="M56,61 Q60,64 64,61" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                  <path class="mouth-happy" d="M54,59 Q60,67 66,59 Z" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" stroke-linejoin="round" />
+                  <path class="mouth-sad" d="M55,64 Q60,59 65,64" stroke="#1e1b4b" stroke-width="1.8" stroke-linecap="round" fill="none" />
+                  <ellipse class="mouth-shocked" cx="60" cy="62" rx="3.2" ry="4.8" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" />
+                  <g class="tears"><path d="M46,50 C44,58 41,75 42,78 C43,81 47,81 48,78 C48,75 48,58 46,50 Z" fill="url(#tear-grad-boy)" /><path d="M74,50 C72,58 69,75 70,78 C71,81 75,81 76,78 C76,75 76,58 74,50 Z" fill="url(#tear-grad-boy)" /></g>
+                  <path class="sweat" d="M79,35 C77.5,39 76,43 76,45 C76,47 77.5,48 78.5,48 C79.5,48 80.5,46 80,43 Z" fill="#38bdf8" opacity="0.8" />
+                  <path d="M30,45 C28,25 40,16 60,16 C80,16 92,25 90,45 L94,52 L88,54 L86,45 C86,45 84,36 82,36 C80,36 78,42 78,42 L72,32 L60,38 L48,32 L42,42 C42,42 40,36 38,36 C36,36 34,45 34,45 L32,54 L26,52 Z" fill="url(#hair-grad-girl)" stroke="#c2185b" stroke-width="0.8" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="player-name-wrapper">
+              <h2 class="name pvp-name-1" id="name--1">Player 2</h2>
+              <span class="btn-edit-name" onclick="editPlayerName(1)">✏️</span>
+            </div>
+
+            <!-- ACTIVE POWER-UPS INVENTORY -->
+            <div class="powerups-inventory" id="powerups--1">
+              <button class="powerup-card" data-powerup="shield" title="Shield: Protects from next 1">
+                <span class="powerup-icon">🛡️</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="double" title="Double Down: 2x next 3 rolls">
+                <span class="powerup-icon">🔥</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="siphon" title="Siphon: Steal 10 points">
+                <span class="powerup-icon">⚡</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="lucky" title="Lucky 7: +7 points instantly">
+                <span class="powerup-icon">🍀</span>
+                <span class="powerup-count">1</span>
+              </button>
+            </div>
+
+            <p class="score score-text-1" id="score--1">0</p>
+
+            <div class="current">
+              <p class="current-label">Current</p>
+              <p class="current-score current-score-text-1" id="current--1">0</p>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- PAGE 2: AI BATTLE MODE CONTENT -->
+      <div id="ai-mode" class="tab-content">
+        <!-- DIFFICULTY SELECTION PANEL -->
+        <div class="difficulty-glass-row">
+          <span class="diff-title">Select CPU Core:</span>
+          <button class="btn-diff active" data-difficulty="easy">Nano Core</button>
+          <button class="btn-diff" data-difficulty="medium">Zenith Core</button>
+          <button class="btn-diff" data-difficulty="hard">Kratos Core</button>
+        </div>
+
+        <main class="game-container">
+          <!-- HUMAN PLAYER (PLAYER 1) -->
+          <section class="player player-ai--0 player--active">
+            <div class="avatar-container">
+              <svg class="avatar-svg" viewBox="0 0 120 120" width="100%" height="100%">
+                <circle cx="60" cy="60" r="48" fill="rgba(168, 85, 247, 0.1)" stroke="rgba(192, 132, 252, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                <circle cx="60" cy="60" r="48" fill="none" stroke="#c084fc" stroke-width="2.5" class="avatar-glow" filter="url(#glow-boy)" />
+                <g class="avatar-body">
+                  <path d="M25,110 C25,95 40,84 60,84 C80,84 95,95 95,110 Z" fill="#180e29" stroke="#c084fc" stroke-width="1.5" />
+                  <path d="M45,84 L41,75 L60,79 L79,75 L75,84 Z" fill="#2e1065" stroke="#a78bfa" stroke-width="1" />
+                  <path d="M52,80 L60,92 L68,80 Z" fill="#ffffff" />
+                  <path d="M60,80 L60,92" stroke="#7c3aed" stroke-width="1" />
+                  <path d="M52,70 L52,80 L68,80 L68,70 Z" fill="#ffd4bd" />
+                  <path d="M38,45 C38,34 45,29 60,29 C75,29 82,34 82,45 C82,60 76,73 60,73 C44,73 38,60 38,45 Z" fill="#ffd4bd" />
+                  <g class="blush"><ellipse cx="46" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /><ellipse cx="74" cy="56" rx="5" ry="2.5" fill="#f43f5e" opacity="0.6" /></g>
+                  <g class="eye-normal">
+                    <ellipse cx="48" cy="48" rx="5.5" ry="7" fill="url(#eye-grad-boy)" /><circle cx="46.5" cy="45" r="1.8" fill="#ffffff" /><path d="M41,40 Q48,37 55,40" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <ellipse cx="72" cy="48" rx="5.5" ry="7" fill="url(#eye-grad-boy)" /><circle cx="70.5" cy="45" r="1.8" fill="#ffffff" /><path d="M65,40 Q72,37 79,40" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" fill="none" />
+                  </g>
+                  <g class="eye-happy"><path d="M42,50 Q48,43 54,50" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M66,50 Q72,43 78,50" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-sad"><path d="M42,48 Q48,54 54,48" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /><path d="M66,48 Q72,54 78,48" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round" fill="none" /></g>
+                  <g class="eye-shocked"><circle cx="48" cy="48" r="6.5" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="48" cy="48" r="2" fill="#1e1b4b" /><circle cx="72" cy="48" r="6.5" fill="#ffffff" stroke="#1e1b4b" stroke-width="1.5" /><circle cx="72" cy="48" r="2" fill="#1e1b4b" /></g>
+                  <path class="mouth-normal" d="M55,61 Q60,64 65,61" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                  <path class="mouth-happy" d="M54,59 Q60,68 66,59 Z" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" stroke-linejoin="round" />
+                  <path class="mouth-sad" d="M55,64 Q60,59 65,64" stroke="#1e1b4b" stroke-width="1.8" stroke-linecap="round" fill="none" />
+                  <ellipse class="mouth-shocked" cx="60" cy="62" rx="3.5" ry="5.5" fill="#f43f5e" stroke="#1e1b4b" stroke-width="1.5" />
+                  <g class="tears"><path d="M46,50 C44,58 41,75 42,78 C43,81 47,81 48,78 C48,75 48,58 46,50 Z" fill="url(#tear-grad-boy)" /><path d="M74,50 C72,58 69,75 70,78 C71,81 75,81 76,78 C76,75 76,58 74,50 Z" fill="url(#tear-grad-boy)" /></g>
+                  <path class="sweat" d="M79,35 C77.5,39 76,43 76,45 C76,47 77.5,48 78.5,48 C79.5,48 80.5,46 80,43 Z" fill="#38bdf8" opacity="0.8" />
+                  <path d="M30,50 L25,35 L35,28 L50,18 L70,18 L85,28 L95,35 L90,50 Z" fill="url(#hair-grad-boy)" />
+                  <path d="M26,38 L32,45 L34,35 L42,48 L44,38 L54,52 L57,36 L64,52 L67,36 L76,48 L78,35 L86,45 L94,38 L92,30 L82,22 L60,16 L38,22 Z" fill="url(#hair-grad-boy)" stroke="#5b21b6" stroke-width="0.8" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="player-name-wrapper">
+              <h2 class="name pvp-name-0" id="ai-name--0">Hero Player</h2>
+              <span class="btn-edit-name" onclick="editPlayerName(0)">✏️</span>
+            </div>
+
+            <!-- ACTIVE POWER-UPS INVENTORY -->
+            <div class="powerups-inventory" id="ai-powerups--0">
+              <button class="powerup-card" data-powerup="shield" title="Shield: Protect from next 1">
+                <span class="powerup-icon">🛡️</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="double" title="Double Down: 2x points next 3 rolls">
+                <span class="powerup-icon">🔥</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="siphon" title="Siphon: Steal 10 points">
+                <span class="powerup-icon">⚡</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="lucky" title="Lucky 7: +7 points instantly">
+                <span class="powerup-icon">🍀</span>
+                <span class="powerup-count">1</span>
+              </button>
+            </div>
+
+            <p class="score score-text-0" id="ai-score--0">0</p>
+
+            <div class="current">
+              <p class="current-label">Current</p>
+              <p class="current-score current-score-text-0" id="ai-current--0">0</p>
+            </div>
+          </section>
+
+          <!-- CONTROLS PANEL (CENTER) -->
+          <section class="game-controls">
+            <div class="settings-panel">
+              <button class="btn-control btn--new-ai" onclick="resetGameAction()" title="New Game">Reset</button>
+              <div class="settings-item">
+                <span class="target-label">Target:</span>
+                <span class="target-val-el" style="color: #fff; font-weight: 700; font-size: 1.3rem;">100</span>
+              </div>
+              <button class="btn-control btn--sound" title="Toggle Sound">Audio</button>
+            </div>
+
+            <div class="dice-panel">
+              <div class="dice-box">
+                <img src="dice-5.png" alt="Playing dice 1" class="dice dice-ai--0 hidden" />
+                <img src="dice-5.png" alt="Playing dice 2" class="dice dice-ai--1 hidden" />
+              </div>
+            </div>
+
+            <div class="actions-panel">
+              <button class="btn btn-ai--roll">Roll Dice</button>
+              <button class="btn btn-ai--hold">Hold Points</button>
+            </div>
+
+            <div class="mode-panel">
+              <span class="mode-label">Double Dice Mode</span>
+              <label class="toggle-switch">
+                <input type="checkbox" class="mode-checkbox-el" id="ai-mode-checkbox" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </section>
+
+          <!-- CYBER ROBOT BOT (PLAYER 2) -->
+          <section class="player player-ai--1 ai-core--easy">
+            <div class="avatar-container">
+              <svg class="avatar-svg" viewBox="0 0 120 120" width="100%" height="100%">
+                <defs>
+                  <filter id="glow-robot" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                  <linearGradient id="robot-eyes-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#22d3ee" />
+                    <stop offset="100%" stop-color="#0891b2" />
+                  </linearGradient>
+                  <linearGradient id="robot-eyes-rose" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f472b6" />
+                    <stop offset="100%" stop-color="#db2777" />
+                  </linearGradient>
+                  <linearGradient id="robot-eyes-orange" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f97316" />
+                    <stop offset="100%" stop-color="#c2410c" />
+                  </linearGradient>
+                </defs>
+                
+                <!-- EASY BOT (NANO CORE) - Cute Rose Chibi -->
+                <g class="bot-easy-g">
+                  <circle cx="60" cy="60" r="48" fill="rgba(244, 114, 182, 0.1)" stroke="rgba(244, 114, 182, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#f472b6" stroke-width="2.5" class="avatar-glow" filter="url(#glow-robot)" />
+                  <g class="avatar-body">
+                    <path d="M28,110 C28,95 40,88 60,88 C80,88 92,95 92,110 Z" fill="#1f1224" stroke="#f472b6" stroke-width="1.5" />
+                    <rect x="54" y="74" width="12" height="15" rx="3" fill="#475569" stroke="#f472b6" stroke-width="1" />
+                    <rect x="32" y="24" width="56" height="52" rx="26" fill="#0c0410" stroke="#f472b6" stroke-width="2" />
+                    <path d="M40,24 C30,12 35,6 38,6 C42,6 46,16 46,24 Z" fill="#f472b6" opacity="0.8" />
+                    <path d="M80,24 C90,12 85,6 82,6 C78,6 74,16 74,24 Z" fill="#f472b6" opacity="0.8" />
+                    
+                    <g class="eye-normal">
+                      <ellipse cx="48" cy="46" rx="4.5" ry="6" fill="url(#robot-eyes-rose)" filter="url(#glow-robot)" />
+                      <circle cx="46.5" cy="44" r="1.5" fill="#fff" />
+                      <ellipse cx="72" cy="46" rx="4.5" ry="6" fill="url(#robot-eyes-rose)" filter="url(#glow-robot)" />
+                      <circle cx="70.5" cy="44" r="1.5" fill="#fff" />
+                    </g>
+                    <g class="eye-happy">
+                      <path d="M43,48 Q48,42 53,48" stroke="#22c55e" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M67,48 Q72,42 77,48" stroke="#22c55e" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-sad">
+                      <path d="M43,45 Q48,51 53,45" stroke="#db2777" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M67,45 Q72,51 77,45" stroke="#db2777" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-shocked">
+                      <circle cx="48" cy="46" r="4.5" fill="none" stroke="#ef4444" stroke-width="2.5" filter="url(#glow-robot)" />
+                      <circle cx="72" cy="46" r="4.5" fill="none" stroke="#ef4444" stroke-width="2.5" filter="url(#glow-robot)" />
+                    </g>
+                    <path class="mouth-normal" d="M56,60 Q60,63 64,60" stroke="#f472b6" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                  </g>
+                </g>
+
+                <!-- MEDIUM BOT (ZENITH CORE) - Cyan Cyber Analyst -->
+                <g class="bot-medium-g">
+                  <circle cx="60" cy="60" r="48" fill="rgba(56, 189, 248, 0.1)" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#38bdf8" stroke-width="2.5" class="avatar-glow" filter="url(#glow-robot)" />
+                  <g class="avatar-body">
+                    <path d="M25,110 C25,92 40,84 60,84 C80,84 95,92 95,110 Z" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+                    <path d="M48,84 L45,76 L60,80 L75,76 L72,84 Z" fill="#1e293b" stroke="#0ea5e9" stroke-width="1" />
+                    <rect x="54" y="70" width="12" height="10" rx="2" fill="#475569" stroke="#38bdf8" stroke-width="1" />
+                    <rect x="36" y="28" width="48" height="42" rx="14" fill="#020617" stroke="#38bdf8" stroke-width="2" />
+                    
+                    <line x1="42" y1="28" x2="32" y2="18" stroke="#38bdf8" stroke-width="2.5" />
+                    <circle cx="32" cy="18" r="3" fill="#22d3ee" />
+                    <line x1="78" y1="28" x2="88" y2="18" stroke="#38bdf8" stroke-width="2.5" />
+                    <circle cx="88" cy="18" r="3" fill="#22d3ee" />
+                    
+                    <g class="eye-normal">
+                      <rect x="44" y="44" width="10" height="4" rx="2" fill="url(#robot-eyes-cyan)" filter="url(#glow-robot)" />
+                      <rect x="66" y="44" width="10" height="4" rx="2" fill="url(#robot-eyes-cyan)" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-thinking">
+                      <path d="M 44,46 L 54,46" stroke="#eab308" stroke-width="3" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M 66,46 L 76,46" stroke="#eab308" stroke-width="3" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <circle cx="49" cy="46" r="1.5" fill="#ffffff" />
+                      <circle cx="71" cy="46" r="1.5" fill="#ffffff" />
+                    </g>
+                    <g class="eye-happy">
+                      <path d="M44,48 Q49,42 54,48" stroke="#22c55e" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M66,48 Q71,42 76,48" stroke="#22c55e" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-sad">
+                      <path d="M44,44 Q49,50 54,44" stroke="#ef4444" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M66,44 Q71,50 76,44" stroke="#ef4444" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-shocked">
+                      <circle cx="49" cy="46" r="5" fill="none" stroke="#ef4444" stroke-width="3" filter="url(#glow-robot)" />
+                      <circle cx="71" cy="46" r="5" fill="none" stroke="#ef4444" stroke-width="3" filter="url(#glow-robot)" />
+                    </g>
+                    <line x1="40" y1="36" x2="80" y2="36" stroke="rgba(56, 189, 248, 0.15)" stroke-width="1" />
+                  </g>
+                </g>
+
+                <!-- HARD BOT (KRATOS CORE) - Fiery Combat Cyborg -->
+                <g class="bot-hard-g">
+                  <circle cx="60" cy="60" r="48" fill="rgba(249, 115, 22, 0.1)" stroke="rgba(249, 115, 22, 0.2)" stroke-width="1.5" class="avatar-bg" />
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#f97316" stroke-width="2.5" class="avatar-glow" filter="url(#glow-robot)" />
+                  <g class="avatar-body">
+                    <path d="M24,110 C24,90 38,82 60,82 C82,82 96,90 96,110 Z" fill="#1b0802" stroke="#f97316" stroke-width="1.5" />
+                    <rect x="55" y="72" width="10" height="12" rx="1" fill="#475569" stroke="#f97316" stroke-width="1" />
+                    <polygon points="34,26 86,26 80,68 40,68" fill="#080201" stroke="#f97316" stroke-width="2.5" />
+                    <polygon points="34,26 24,12 40,20" fill="#f97316" filter="url(#glow-robot)" />
+                    <polygon points="86,26 96,12 80,20" fill="#f97316" filter="url(#glow-robot)" />
+                    
+                    <g class="eye-normal">
+                      <rect x="42" y="42" width="36" height="5" rx="2.5" fill="url(#robot-eyes-orange)" filter="url(#glow-robot)" />
+                      <circle cx="60" cy="44.5" r="2" fill="#fff" />
+                    </g>
+                    <g class="eye-happy">
+                      <path d="M 42,48 L 52,40" stroke="#22c55e" stroke-width="4" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M 78,48 L 68,40" stroke="#22c55e" stroke-width="4" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-sad">
+                      <path d="M 42,40 L 52,48" stroke="#ef4444" stroke-width="4" stroke-linecap="round" filter="url(#glow-robot)" />
+                      <path d="M 78,40 L 68,48" stroke="#ef4444" stroke-width="4" stroke-linecap="round" filter="url(#glow-robot)" />
+                    </g>
+                    <g class="eye-shocked">
+                      <rect x="44" y="40" width="32" height="10" rx="5" fill="none" stroke="#ef4444" stroke-width="3" filter="url(#glow-robot)" />
+                    </g>
+                    <line x1="38" y1="32" x2="82" y2="32" stroke="rgba(249, 115, 22, 0.15)" stroke-width="1" />
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <div class="player-name-wrapper">
+              <h2 class="name" id="ai-name--1">Nano 🤖</h2>
+              <span style="font-family: var(--font-title); font-size: 1.1rem; opacity: 0.5; font-weight: 700; color: var(--accent-light);">CPU</span>
+            </div>
+
+            <!-- BOT POWER-UPS INVENTORY -->
+            <div class="powerups-inventory locked" id="ai-powerups--1">
+              <button class="powerup-card" data-powerup="shield" title="Shield Activated">
+                <span class="powerup-icon">🛡️</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="double" title="Double Down Activated">
+                <span class="powerup-icon">🔥</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="siphon" title="Siphon Activated">
+                <span class="powerup-icon">⚡</span>
+                <span class="powerup-count">1</span>
+              </button>
+              <button class="powerup-card" data-powerup="lucky" title="Lucky 7 Activated">
+                <span class="powerup-icon">🍀</span>
+                <span class="powerup-count">1</span>
+              </button>
+            </div>
+
+            <p class="score score-text-1" id="ai-score--1">0</p>
+
+            <div class="current">
+              <p class="current-label">Current</p>
+              <p class="current-score current-score-text-1" id="ai-current--1">0</p>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- PAGE 3: STATS & RANKINGS CONTENT -->
+      <div id="stats-mode" class="tab-content">
+        <div class="stats-grid">
+          <!-- STATS WIDGETS -->
+          <div class="stats-card glass-card">
+            <span class="stat-label">High Score Record</span>
+            <span class="stat-value" id="stats-high-score">0</span>
+            <span class="stat-sub">Across all local matches</span>
+          </div>
+          <div class="stats-card glass-card">
+            <span class="stat-label">Highest Turn Score</span>
+            <span class="stat-value" id="stats-best-turn">0</span>
+            <span class="stat-sub">Most points before holding</span>
+          </div>
+          <div class="stats-card glass-card">
+            <span class="stat-label">Total Rolls Played</span>
+            <span class="stat-value" id="stats-total-rolls">0</span>
+            <span class="stat-sub">Lifetime rolls recorded</span>
+          </div>
+          <div class="stats-card glass-card">
+            <span class="stat-label">Heartbreaks</span>
+            <span class="stat-value" id="stats-total-busts">0</span>
+            <span class="stat-sub">Total times rolled a 1</span>
+          </div>
+        </div>
+
+        <div class="stats-details-row full-width-leaderboard">
+          <!-- CHAMPIONS WALL (FULL WIDTH FOR STYLISH LOOK) -->
+          <div class="leaderboard-container glass-card">
+            <h3>Champions Wall</h3>
+            <p style="font-size: 1.3rem; color: #cbd5e1; margin-bottom: 2.2rem; font-family: var(--font-content);">Recent match victory history logs</p>
+            <div class="table-wrapper">
+              <table class="glass-table">
+                <thead>
+                  <tr>
+                    <th>Champion</th>
+                    <th>Score</th>
+                    <th>Opponent</th>
+                    <th>Game Mode</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="champions-tbody">
+                  <tr>
+                    <td colspan="5" style="text-align: center; color: #94a3b8; font-style: italic; padding: 3rem; font-size: 1.35rem;">No games recorded yet! Start playing to populate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE 4: CODEX & RULES CONTENT -->
+      <div id="codex-mode" class="tab-content">
+        <h3 class="codex-heading">Holo Codex</h3>
+        <p class="codex-sub">Tap cards to preview advanced perks and battle utilities</p>
+
+        <!-- Dynamic perk cards with heading only -->
+        <div class="codex-cards-row">
+          <!-- CARD 1 -->
+          <div class="holo-card" onclick="openPerkModal('shield')">
+            <div class="holo-inner">
+              <span class="holo-emoji">🛡️</span>
+              <span class="holo-title">Aura Shield</span>
+              <span class="holo-tap-prompt">Tap to preview</span>
+              <div class="holo-shine"></div>
+            </div>
+          </div>
+          <!-- CARD 2 -->
+          <div class="holo-card" onclick="openPerkModal('double')">
+            <div class="holo-inner">
+              <span class="holo-emoji">🔥</span>
+              <span class="holo-title">Double Down</span>
+              <span class="holo-tap-prompt">Tap to preview</span>
+              <div class="holo-shine"></div>
+            </div>
+          </div>
+          <!-- CARD 3 -->
+          <div class="holo-card" onclick="openPerkModal('siphon')">
+            <div class="holo-inner">
+              <span class="holo-emoji">⚡</span>
+              <span class="holo-title">Energy Siphon</span>
+              <span class="holo-tap-prompt">Tap to preview</span>
+              <div class="holo-shine"></div>
+            </div>
+          </div>
+          <!-- CARD 4 -->
+          <div class="holo-card" onclick="openPerkModal('lucky')">
+            <div class="holo-inner">
+              <span class="holo-emoji">🍀</span>
+              <span class="holo-title">Lucky 7</span>
+              <span class="holo-tap-prompt">Tap to preview</span>
+              <div class="holo-shine"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STYLISH WHITE-GLASS RULEBOOK -->
+        <div class="rules-section glass-card rulebook-white-glass">
+          <h3>Arcade Codex</h3>
+          <div class="rules-flex">
+            <div class="rule-column">
+              <h4>Core Rules</h4>
+              <ul>
+                <li>Accumulate turn points by successfully rolling dice.</li>
+                <li>Hold turn score to deposit points safely into your global score.</li>
+                <li>Rolling a 1 immediately wipes your turn score and yields your turn.</li>
+                <li>In Double Dice Mode:
+                  <ul>
+                    <li>Rolling a single 1 drops all turn points and yields turn.</li>
+                    <li>Rolling double 1s completely wipes your global score to 0!</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="rule-column">
+              <h4>Streak Multipliers</h4>
+              <ul>
+                <li>Successful consecutive rolls build a consecutive streak counter.</li>
+                <li>Reaching a streak of 3 active rolls triggers Fever Mode!</li>
+                <li>Fever Mode pulses your avatar in purple fire, multiplying safe rolls by 1.5x.</li>
+                <li>Holding score while on fire locks the 1.5x multiplier to the entire turn points!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE LOG WINDOW (GLOBAL ACCESSIBLE FOR PVP AND AI PAGES) -->
+      <footer class="game-footer">
+        <div class="log-panel">
+          <div class="log-header">
+            <span class="log-title"><span class="terminal-pulse"></span>Action Terminal</span>
+            <button class="btn-clear-logs" id="clear-logs">Clear</button>
+          </div>
+          <div class="log-list" id="log-list">
+            <div class="log-item system">Pig Arcade Deluxe Initialized. Tab pages to select custom features.</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script src="script.js?v=2.0"></script>
+  </body>
+</html>
