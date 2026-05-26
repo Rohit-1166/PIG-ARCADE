@@ -6,6 +6,11 @@
 ![Players](https://img.shields.io/badge/Players-1--2-informational?style=flat-square)
 ![AI Difficulty](https://img.shields.io/badge/AI-3%20Difficulty%20Levels-orange?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-pig--arcade.vercel.app-brightgreen?style=flat-square&logo=vercel)](https://pig-arcade.vercel.app/)
+
+---
+
+🔗 **Live Demo:** [https://pig-arcade.vercel.app/](https://pig-arcade.vercel.app/)
 
 ---
 
